@@ -5,10 +5,9 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/montvlein/DH_Backend4_final/internal/dentists"
-
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
+	"github.com/montvlein/DH_Backend4_final/internal/dentists"
 )
 
 type DentistsGetter interface {
@@ -55,13 +54,13 @@ func (ph *DentistsHandler) GetDentistByID(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, dentist)
 }
 
-// PutDentist
+// PutDentistById
 // @Summary      Updates a dentist by ID
 // @Description  Updates a dentist by ID from the repository
 // @Tags         dentists
 // @Produce      json
 // @Param        id path int true "Dentist ID"
-// @Param        requestBody body Dentist true "Dentist object"
+// @Param        requestBody body dentists.Dentist true "Dentist object"
 // @Success      200 {object} dentists.Dentist
 // @Router       /dentists/{id} [put]
 func (ph *DentistsHandler) PutDentist(ctx *gin.Context) {
@@ -98,7 +97,7 @@ func (ph *DentistsHandler) PutDentist(ctx *gin.Context) {
 // @Description  Creates a new dentist in the repository
 // @Tags         dentists
 // @Produce      json
-// @Param        requestBody body Dentist true "Dentist object"
+// @Param        requestBody body dentists.Dentist true "Dentist object"
 // @Success      201 {object} dentists.Dentist
 // @Router       /dentists/ [post]
 func (ph *DentistsHandler) CreateDentist(ctx *gin.Context) {
@@ -164,7 +163,7 @@ func (ph *DentistsHandler) DeleteDentist(ctx *gin.Context) {
 // @Tags         dentists
 // @Produce      json
 // @Param        id path int true "Dentist ID"
-// @Param        requestBody body DentistPatch true "Dentist patch object"
+// @Param        requestBody body dentists.DentistPatch true "Dentist patch object"
 // @Success      200 {object} dentists.Dentist
 // @Router       /dentists/{id} [patch]
 func (ph *DentistsHandler) PatchDentist(ctx *gin.Context) {

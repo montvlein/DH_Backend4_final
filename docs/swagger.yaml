@@ -1,0 +1,282 @@
+definitions:
+  dentists.Dentist:
+    properties:
+      id:
+        type: integer
+      lastname:
+        type: string
+      license:
+        type: string
+      name:
+        type: string
+    required:
+    - lastname
+    - license
+    - name
+    type: object
+  dentists.DentistPatch:
+    properties:
+      lastname:
+        type: string
+      license:
+        type: string
+      name:
+        type: string
+    type: object
+  patients.Patient:
+    properties:
+      address:
+        type: string
+      discharge_date:
+        type: string
+      dni:
+        type: string
+      id:
+        type: integer
+      lastname:
+        type: string
+      name:
+        type: string
+    required:
+    - address
+    - discharge_date
+    - dni
+    - lastname
+    - name
+    type: object
+  patients.PatientPatch:
+    properties:
+      address:
+        type: string
+      discharge_date:
+        type: string
+      dni:
+        type: string
+      lastname:
+        type: string
+      name:
+        type: string
+    type: object
+info:
+  contact:
+    name: API Support
+    url: https://developers.ctd.com.ar/support
+  description: This API Handle Dentists.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: https://developers.ctd.com.ar/es_ar/terminos-y-condiciones
+  title: Grupo 8 Final Backend
+  version: "1.0"
+paths:
+  /dentists/:
+    post:
+      description: Creates a new dentist in the repository
+      parameters:
+      - description: Dentist object
+        in: body
+        name: requestBody
+        required: true
+        schema:
+          $ref: '#/definitions/dentists.Dentist'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/dentists.Dentist'
+      summary: Creates a new dentist
+      tags:
+      - dentists
+  /dentists/{id}:
+    delete:
+      description: Deletes a dentist by ID from the repository
+      parameters:
+      - description: Dentist ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Dentist deleted successfully
+          schema:
+            type: string
+      summary: Deletes a dentist by ID
+      tags:
+      - dentists
+    get:
+      description: Gets a dentist by id from the repository
+      parameters:
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dentists.Dentist'
+      summary: Gets a dentist by id
+      tags:
+      - dentists
+    patch:
+      description: Updates a dentist partially by ID from the repository
+      parameters:
+      - description: Dentist ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Dentist patch object
+        in: body
+        name: requestBody
+        required: true
+        schema:
+          $ref: '#/definitions/dentists.DentistPatch'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dentists.Dentist'
+      summary: Updates a dentist partially by ID
+      tags:
+      - dentists
+    put:
+      description: Updates a dentist by ID from the repository
+      parameters:
+      - description: Dentist ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Dentist object
+        in: body
+        name: requestBody
+        required: true
+        schema:
+          $ref: '#/definitions/dentists.Dentist'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dentists.Dentist'
+      summary: Updates a dentist by ID
+      tags:
+      - dentists
+  /patients/:
+    post:
+      description: Creates a new patient in the repository
+      parameters:
+      - description: Patient object
+        in: body
+        name: requestBody
+        required: true
+        schema:
+          $ref: '#/definitions/patients.Patient'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/patients.Patient'
+      summary: Creates a new patient
+      tags:
+      - patients
+  /patients/{id}:
+    delete:
+      description: Deletes a patient by ID from the repository
+      parameters:
+      - description: Patient ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Patient deleted successfully
+          schema:
+            type: string
+      summary: Deletes a patient by ID
+      tags:
+      - patients
+    get:
+      description: Gets a patient by id from the repository
+      parameters:
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/patients.Patient'
+      summary: Gets a patient by id
+      tags:
+      - patients
+    patch:
+      description: Updates a patient partially by ID from the repository
+      parameters:
+      - description: Patient ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Patient patch object
+        in: body
+        name: requestBody
+        required: true
+        schema:
+          $ref: '#/definitions/patients.PatientPatch'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/patients.Patient'
+      summary: Updates a patient partially by ID
+      tags:
+      - patients
+    put:
+      description: Updates a patient by ID from the repository
+      parameters:
+      - description: Patient ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Patient object
+        in: body
+        name: requestBody
+        required: true
+        schema:
+          $ref: '#/definitions/patients.Patient'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/patients.Patient'
+      summary: Updates a patient by ID
+      tags:
+      - patients
+swagger: "2.0"

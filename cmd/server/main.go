@@ -14,8 +14,22 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
+
+	"github.com/montvlein/DH_Backend4_final/docs"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
+// @title Grupo 8 Final Backend
+// @version 1.0
+// @description This API Handle Dentists.
+// @termsOfService https://developers.ctd.com.ar/es_ar/terminos-y-condiciones
+
+// @contact.name API Support
+// @contact.url https://developers.ctd.com.ar/support
+
+// @license.name Apache 2.0
+// @license.url http://www.apache.org/licenses/LICENSE-2.0.html
 func main() {
 
 	env := os.Getenv("ENV")
@@ -43,6 +57,9 @@ func main() {
 	customRecovery := gin.CustomRecovery(middleware.RecoveryWithLog)
 
 	router.Use(customRecovery)
+
+	docs.SwaggerInfo.Host = os.Getenv("HOST")
+	router.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	router.GET("/ping", func(context *gin.Context) {
 		context.JSON(http.StatusOK, gin.H{"ok": "ok"})
