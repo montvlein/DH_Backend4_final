@@ -1,10 +1,10 @@
 package dentists
 
 type Repository interface {
-	GetById(id int) (Dentist, error)
-	Create(dentist Dentist) (Dentist, error)
-	ModifyById(id int, dentist Dentist) (Dentist, error)
-	DeleteById(id int) error
+	GetDentistById(id int) (Dentist, error)
+	CreateDentist(dentist Dentist) (Dentist, error)
+	ModifyDentistById(id int, dentist Dentist) (Dentist, error)
+	DeleteDentistById(id int) error
 }
 
 type Service struct {
@@ -15,18 +15,18 @@ func NewService(repository Repository) *Service {
 	return &Service{repository: repository}
 }
 
-func (s *Service) GetByID(id int) (Dentist, error) {
-	return s.repository.GetById(id)
+func (s *Service) GetDentistByID(id int) (Dentist, error) {
+	return s.repository.GetDentistById(id)
 }
 
-func (s *Service) ModifyByID(id int, dentist Dentist) (Dentist, error) {
-	return s.repository.ModifyById(id, dentist)
+func (s *Service) ModifyDentistByID(id int, dentist Dentist) (Dentist, error) {
+	return s.repository.ModifyDentistById(id, dentist)
 }
 
 func (s *Service) CreateDentist(dentist Dentist) (Dentist, error) {
-	return s.repository.Create(dentist)
+	return s.repository.CreateDentist(dentist)
 }
 
 func (s *Service) DeleteDentistByID(id int) error {
-	return s.repository.DeleteById(id)
+	return s.repository.DeleteDentistById(id)
 }

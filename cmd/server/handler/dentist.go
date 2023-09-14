@@ -12,11 +12,11 @@ import (
 )
 
 type DentistsGetter interface {
-	GetByID(id int) (dentists.Dentist, error)
+	GetDentistByID(id int) (dentists.Dentist, error)
 }
 type DentistCreator interface {
 	CreateDentist(dentist dentists.Dentist) (dentists.Dentist, error)
-	ModifyByID(id int, dentist dentists.Dentist) (dentists.Dentist, error)
+	ModifyDentistByID(id int, dentist dentists.Dentist) (dentists.Dentist, error)
 	DeleteDentistByID(id int) error
 }
 
@@ -47,7 +47,7 @@ func (ph *DentistsHandler) GetDentistByID(ctx *gin.Context) {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": "invalid id"})
 		return
 	}
-	dentist, err := ph.dentistsGetter.GetByID(id)
+	dentist, err := ph.dentistsGetter.GetDentistByID(id)
 	if err != nil {
 		ctx.JSON(http.StatusNotFound, gin.H{"error": "dentist not found"})
 		return
@@ -77,7 +77,14 @@ func (ph *DentistsHandler) PutDentist(ctx *gin.Context) {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	dentist, err := ph.dentistsCreator.ModifyByID(id, dentistRequest)
+
+	_, err = ph.dentistsGetter.GetDentistByID(id)
+	if err != nil {
+		ctx.JSON(http.StatusNotFound, gin.H{"error": "dentist not found"})
+		return
+	}
+
+	dentist, err := ph.dentistsCreator.ModifyDentistByID(id, dentistRequest)
 	if err != nil {
 		fmt.Println("Error when updating dentist:", err)
 		ctx.JSON(500, gin.H{"error": "internal error"})
@@ -135,6 +142,12 @@ func (ph *DentistsHandler) DeleteDentist(ctx *gin.Context) {
 		return
 	}
 
+	_, err = ph.dentistsGetter.GetDentistByID(id)
+	if err != nil {
+		ctx.JSON(http.StatusNotFound, gin.H{"error": "dentist not found"})
+		return
+	}
+
 	err = ph.dentistsCreator.DeleteDentistByID(id)
 	if err != nil {
 		fmt.Println("Error when deleting dentist:", err)
@@ -162,7 +175,7 @@ func (ph *DentistsHandler) PatchDentist(ctx *gin.Context) {
 		return
 	}
 
-	existingDentist, err := ph.dentistsGetter.GetByID(id)
+	existingDentist, err := ph.dentistsGetter.GetDentistByID(id)
 	if err != nil {
 		ctx.JSON(http.StatusNotFound, gin.H{"error": "dentist not found"})
 		return
@@ -184,7 +197,7 @@ func (ph *DentistsHandler) PatchDentist(ctx *gin.Context) {
 		existingDentist.License = dentistPatch.License
 	}
 
-	updatedDentist, err := ph.dentistsCreator.ModifyByID(id, existingDentist)
+	updatedDentist, err := ph.dentistsCreator.ModifyDentistByID(id, existingDentist)
 	if err != nil {
 		fmt.Println("Error when updating dentist:", err)
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "internal error"})

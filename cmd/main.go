@@ -10,6 +10,7 @@ import (
 	"github.com/montvlein/DH_Backend4_final/cmd/server/middleware"
 	"github.com/montvlein/DH_Backend4_final/cmd/server/routers"
 	"github.com/montvlein/DH_Backend4_final/internal/dentists"
+	"github.com/montvlein/DH_Backend4_final/internal/patients"
 
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
@@ -60,7 +61,11 @@ func main() {
 	dentistsService := dentists.NewService(myDatabase)
 	dentistsHandler := handler.NewDentistsHandler(dentistsService, dentistsService)
 
+	patientsService := patients.NewService(myDatabase)
+	patientsHandler := handler.NewPatientsHandler(patientsService, patientsService)
+
 	routers.SetupDentistsRouter(router, dentistsHandler, authMidd)
+	routers.SetupPatientsRouter(router, patientsHandler, authMidd)
 
 	err = router.Run()
 

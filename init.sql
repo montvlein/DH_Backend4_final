@@ -14,3 +14,14 @@ CREATE TABLE dentists (
     lastname VARCHAR(255),
     license VARCHAR(255)
 );
+
+DROP TABLE IF EXISTS patients;
+
+CREATE TABLE patients (
+    id serial PRIMARY KEY,
+    name VARCHAR(255),
+    lastname VARCHAR(255),
+    address VARCHAR(255),
+    dni VARCHAR(255),
+    discharge_date VARCHAR(255)
+);

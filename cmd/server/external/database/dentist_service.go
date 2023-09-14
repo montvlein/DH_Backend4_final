@@ -1,21 +1,12 @@
 package database
 
 import (
-	"database/sql"
 	"fmt"
 
 	"github.com/montvlein/DH_Backend4_final/internal/dentists"
 )
 
-type SqlStore struct {
-	*sql.DB
-}
-
-func NewDatabase(db *sql.DB) *SqlStore {
-	return &SqlStore{db}
-}
-
-func (s *SqlStore) GetById(id int) (dentists.Dentist, error) {
+func (s *SqlStore) GetDentistById(id int) (dentists.Dentist, error) {
 	var dentistReturn dentists.Dentist
 
 	query := fmt.Sprintf("SELECT * FROM dentists WHERE id = %d;", id)
@@ -27,7 +18,7 @@ func (s *SqlStore) GetById(id int) (dentists.Dentist, error) {
 	return dentistReturn, nil
 }
 
-func (s *SqlStore) ModifyById(id int, dentist dentists.Dentist) (dentists.Dentist, error) {
+func (s *SqlStore) ModifyDentistById(id int, dentist dentists.Dentist) (dentists.Dentist, error) {
 	query := fmt.Sprintf("UPDATE dentists SET name = '%s', lastname = '%v', license = '%s' WHERE id = %v;", dentist.Name, dentist.Lastname,
 		dentist.License, id)
 
@@ -45,7 +36,7 @@ func (s *SqlStore) ModifyById(id int, dentist dentists.Dentist) (dentists.Dentis
 	return dentist, nil
 }
 
-func (s *SqlStore) Create(dentist dentists.Dentist) (dentists.Dentist, error) {
+func (s *SqlStore) CreateDentist(dentist dentists.Dentist) (dentists.Dentist, error) {
 	query := fmt.Sprintf("INSERT INTO dentists (name, lastname, license) VALUES ('%s', '%s', '%s') RETURNING id;", dentist.Name, dentist.Lastname, dentist.License)
 	var id int
 	err := s.DB.QueryRow(query).Scan(&id)
@@ -56,7 +47,7 @@ func (s *SqlStore) Create(dentist dentists.Dentist) (dentists.Dentist, error) {
 	return dentist, nil
 }
 
-func (s *SqlStore) DeleteById(id int) error {
+func (s *SqlStore) DeleteDentistById(id int) error {
 	query := fmt.Sprintf("DELETE FROM dentists WHERE id = %d;", id)
 	_, err := s.DB.Exec(query)
 	return err
