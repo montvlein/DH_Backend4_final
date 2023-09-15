@@ -32,10 +32,10 @@ func NewPatientsHandler(getter PatientsGetter, creator PatientCreator) *Patients
 	}
 }
 
-// GetPatientByID godoc
-// @Summary      Gets a patient by id
-// @Description  Gets a patient by id from the repository
-// @Tags         patients
+// GET: traer paciente por ID
+// @Summary      GET: traer paciente por ID
+// @Description  Obtener paciente por ID desde el repositorio
+// @Tags         pacientes
 // @Produce      json
 // @Param        id path string true "ID"
 // @Success      200 {object} patients.Patient
@@ -55,13 +55,15 @@ func (ph *PatientsHandler) GetPatientByID(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, patient)
 }
 
-// PutPatient godoc
-// @Summary      Updates a patient by ID
-// @Description  Updates a patient by ID from the repository
-// @Tags         patients
+// PUT: actualizar paciente.
+// @Summary      PUT: actualizar paciente.
+// @Description  Actualizar paciente por ID desde el repositorio
+// @Tags         pacientes
 // @Produce      json
 // @Param        id path int true "Patient ID"
 // @Param        requestBody body patients.Patient true "Patient object"
+// @Param PRIVATE-KEY header string true "PRIVATE-KEY"
+// @Param PUBLIC-KEY header string true "PUBLIC-KEY"
 // @Success      200 {object} patients.Patient
 // @Router       /patients/{id} [put]
 func (ph *PatientsHandler) PutPatient(ctx *gin.Context) {
@@ -93,12 +95,14 @@ func (ph *PatientsHandler) PutPatient(ctx *gin.Context) {
 	ctx.JSON(200, patient)
 }
 
-// CreatePatient godoc
-// @Summary      Creates a new patient
-// @Description  Creates a new patient in the repository
-// @Tags         patients
+// POST: agregar paciente.
+// @Summary      POST: agregar paciente.
+// @Description  Crea un nuevo paciente en el repositorio
+// @Tags         pacientes
 // @Produce      json
 // @Param        requestBody body patients.Patient true "Patient object"
+// @Param PRIVATE-KEY header string true "PRIVATE-KEY"
+// @Param PUBLIC-KEY header string true "PUBLIC-KEY"
 // @Success      201 {object} patients.Patient
 // @Router       /patients/ [post]
 func (ph *PatientsHandler) CreatePatient(ctx *gin.Context) {
@@ -126,12 +130,14 @@ func (ph *PatientsHandler) CreatePatient(ctx *gin.Context) {
 	ctx.JSON(http.StatusCreated, createdPatient)
 }
 
-// DeletePatient godoc
-// @Summary      Deletes a patient by ID
-// @Description  Deletes a patient by ID from the repository
-// @Tags         patients
+// DELETE: eliminar al paciente.
+// @Summary      DELETE: eliminar al paciente.
+// @Description  Elimina un paciente por ID desde el repositorio
+// @Tags         pacientes
 // @Produce      json
 // @Param        id path int true "Patient ID"
+// @Param PRIVATE-KEY header string true "PRIVATE-KEY"
+// @Param PUBLIC-KEY header string true "PUBLIC-KEY"
 // @Success      200 {string} message "Patient deleted successfully"
 // @Router       /patients/{id} [delete]
 func (ph *PatientsHandler) DeletePatient(ctx *gin.Context) {
@@ -158,13 +164,15 @@ func (ph *PatientsHandler) DeletePatient(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, gin.H{"message": "Patient deleted successfully"})
 }
 
-// PatchPatient godoc
-// @Summary      Updates a patient partially by ID
-// @Description  Updates a patient partially by ID from the repository
-// @Tags         patients
+// PATCH: actualizar un paciente por alguno de sus campos.
+// @Summary      PATCH: actualizar un paciente por alguno de sus campos.
+// @Description  Actualiza parcialmente un paciente por ID desde el repositorio
+// @Tags         pacientes
 // @Produce      json
 // @Param        id path int true "Patient ID"
 // @Param        requestBody body patients.PatientPatch true "Patient patch object"
+// @Param PRIVATE-KEY header string true "PRIVATE-KEY"
+// @Param PUBLIC-KEY header string true "PUBLIC-KEY"
 // @Success      200 {object} patients.Patient
 // @Router       /patients/{id} [patch]
 func (ph *PatientsHandler) PatchPatient(ctx *gin.Context) {

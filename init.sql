@@ -1,3 +1,9 @@
+DROP DATABASE IF EXISTS final_backend;
+
+CREATE DATABASE final_backend;
+
+\c final_backend;
+
 CREATE USER grupo8 WITH PASSWORD 'grupo8';
 ALTER USER grupo8 WITH SUPERUSER;
 
@@ -25,3 +31,24 @@ CREATE TABLE patients (
     dni VARCHAR(255),
     discharge_date VARCHAR(255)
 );
+
+DROP TABLE IF EXISTS appointments;
+
+CREATE TABLE appointments (
+    id SERIAL PRIMARY KEY,
+    patient_id INT NOT NULL,
+    dentist_id INT NOT NULL,
+    description TEXT,
+    date VARCHAR(255) NOT NULL,
+    hour VARCHAR(255) NOT NULL
+);
+
+ALTER TABLE appointments
+ADD CONSTRAINT fk_patient
+FOREIGN KEY (patient_id)
+REFERENCES patients (id);
+
+ALTER TABLE appointments
+ADD CONSTRAINT fk_dentist
+FOREIGN KEY (dentist_id)
+REFERENCES dentists (id);

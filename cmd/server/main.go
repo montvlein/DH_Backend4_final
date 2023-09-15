@@ -9,6 +9,7 @@ import (
 	"github.com/montvlein/DH_Backend4_final/cmd/server/handler"
 	"github.com/montvlein/DH_Backend4_final/cmd/server/middleware"
 	"github.com/montvlein/DH_Backend4_final/cmd/server/routers"
+	"github.com/montvlein/DH_Backend4_final/internal/appointments"
 	"github.com/montvlein/DH_Backend4_final/internal/dentists"
 	"github.com/montvlein/DH_Backend4_final/internal/patients"
 
@@ -22,7 +23,7 @@ import (
 
 // @title Grupo 8 Final Backend
 // @version 1.0
-// @description This API Handle Dentists.
+// @description Solución al final de backend de Digital House - Grupo 8 por Felipe Monterrosa, Javier Triana, Fabricio Montivero, Gaston Diaz
 // @termsOfService https://developers.ctd.com.ar/es_ar/terminos-y-condiciones
 
 // @contact.name API Support
@@ -81,8 +82,12 @@ func main() {
 	patientsService := patients.NewService(myDatabase)
 	patientsHandler := handler.NewPatientsHandler(patientsService, patientsService)
 
+	appointmentsService := appointments.NewService(myDatabase)
+	appointmentsHandler := handler.NewAppointmentsHandler(appointmentsService, appointmentsService)
+
 	routers.SetupDentistsRouter(router, dentistsHandler, authMidd)
 	routers.SetupPatientsRouter(router, patientsHandler, authMidd)
+	routers.SetupAppointmentsRouter(router, appointmentsHandler, authMidd)
 
 	err = router.Run()
 

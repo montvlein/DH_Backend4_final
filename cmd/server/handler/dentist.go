@@ -31,10 +31,10 @@ func NewDentistsHandler(getter DentistsGetter, creator DentistCreator) *Dentists
 	}
 }
 
-// GetDentistByID
-// @Summary      Gets a dentist by id
-// @Description  Gets a dentist by id from the repository
-// @Tags         dentists
+// GET: traer dentista por ID.
+// @Summary      GET: traer dentista por ID.
+// @Description  Obtener dentista por ID desde el repositorio
+// @Tags         odontologos
 // @Produce      json
 // @Param        id path string true "ID"
 // @Success      200 {object} dentists.Dentist
@@ -54,13 +54,15 @@ func (ph *DentistsHandler) GetDentistByID(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, dentist)
 }
 
-// PutDentistById
-// @Summary      Updates a dentist by ID
-// @Description  Updates a dentist by ID from the repository
-// @Tags         dentists
+// PUT: actualizar dentista.
+// @Summary      PUT: actualizar dentista.
+// @Description  Actualizar dentista por ID desde el repositorio
+// @Tags         odontologos
 // @Produce      json
 // @Param        id path int true "Dentist ID"
 // @Param        requestBody body dentists.Dentist true "Dentist object"
+// @Param PRIVATE-KEY header string true "PRIVATE-KEY"
+// @Param PUBLIC-KEY header string true "PUBLIC-KEY"
 // @Success      200 {object} dentists.Dentist
 // @Router       /dentists/{id} [put]
 func (ph *DentistsHandler) PutDentist(ctx *gin.Context) {
@@ -92,12 +94,14 @@ func (ph *DentistsHandler) PutDentist(ctx *gin.Context) {
 	ctx.JSON(200, dentist)
 }
 
-// CreateDentist
-// @Summary      Creates a new dentist
-// @Description  Creates a new dentist in the repository
-// @Tags         dentists
+// POST: agregar dentista.
+// @Summary      POST: agregar dentista.
+// @Description  Crear dentista en el repositorio
+// @Tags         odontologos
 // @Produce      json
 // @Param        requestBody body dentists.Dentist true "Dentist object"
+// @Param PRIVATE-KEY header string true "PRIVATE-KEY"
+// @Param PUBLIC-KEY header string true "PUBLIC-KEY"
 // @Success      201 {object} dentists.Dentist
 // @Router       /dentists/ [post]
 func (ph *DentistsHandler) CreateDentist(ctx *gin.Context) {
@@ -125,12 +129,14 @@ func (ph *DentistsHandler) CreateDentist(ctx *gin.Context) {
 	ctx.JSON(http.StatusCreated, createdDentist)
 }
 
-// DeleteDentist
-// @Summary      Deletes a dentist by ID
-// @Description  Deletes a dentist by ID from the repository
-// @Tags         dentists
+// DELETE: eliminar el dentista.
+// @Summary		 DELETE: eliminar el dentista.
+// @Description  Eliminar dentista por ID desde el repositorio
+// @Tags         odontologos
 // @Produce      json
 // @Param        id path int true "Dentist ID"
+// @Param PRIVATE-KEY header string true "PRIVATE-KEY"
+// @Param PUBLIC-KEY header string true "PUBLIC-KEY"
 // @Success      200 {string} message "Dentist deleted successfully"
 // @Router       /dentists/{id} [delete]
 func (ph *DentistsHandler) DeleteDentist(ctx *gin.Context) {
@@ -157,13 +163,15 @@ func (ph *DentistsHandler) DeleteDentist(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, gin.H{"message": "Dentist deleted successfully"})
 }
 
-// PatchDentist
-// @Summary      Updates a dentist partially by ID
-// @Description  Updates a dentist partially by ID from the repository
-// @Tags         dentists
+// PATCH: actualizar un dentista por alguno de sus campos.
+// @Summary      PATCH: actualizar un dentista por alguno de sus campos.
+// @Description  Actualizar parcialmente un dentista por ID desde el repositorio
+// @Tags         odontologos
 // @Produce      json
 // @Param        id path int true "Dentist ID"
 // @Param        requestBody body dentists.DentistPatch true "Dentist patch object"
+// @Param PRIVATE-KEY header string true "PRIVATE-KEY"
+// @Param PUBLIC-KEY header string true "PUBLIC-KEY"
 // @Success      200 {object} dentists.Dentist
 // @Router       /dentists/{id} [patch]
 func (ph *DentistsHandler) PatchDentist(ctx *gin.Context) {

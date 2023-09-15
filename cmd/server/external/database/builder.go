@@ -14,7 +14,6 @@ func NewPostgresSQLDatabase(host, port, user, password, dbname string) (*sql.DB,
 		return nil, err
 	}
 
-	// Test the connection to ensure it's valid
 	err = db.Ping()
 	if err != nil {
 		return nil, err
