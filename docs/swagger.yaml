@@ -1,0 +1,673 @@
+definitions:
+  appointments.Appointment:
+    properties:
+      date:
+        type: string
+      dentist_id:
+        type: integer
+      description:
+        type: string
+      hour:
+        type: string
+      id:
+        type: integer
+      patient_id:
+        type: integer
+    required:
+    - date
+    - dentist_id
+    - hour
+    - patient_id
+    type: object
+  appointments.AppointmentCreateWithDNIAndLicense:
+    properties:
+      date:
+        type: string
+      dentist_license:
+        type: string
+      description:
+        type: string
+      hour:
+        type: string
+      id:
+        type: integer
+      patient_dni:
+        type: string
+    required:
+    - date
+    - dentist_license
+    - hour
+    - patient_dni
+    type: object
+  appointments.AppointmentGetWithAllEntities:
+    properties:
+      date:
+        type: string
+      dentist:
+        $ref: '#/definitions/appointments.DentistInfo'
+      description:
+        type: string
+      hour:
+        type: string
+      id:
+        type: integer
+      patient:
+        $ref: '#/definitions/appointments.PatientInfo'
+    type: object
+  appointments.AppointmentPatch:
+    properties:
+      date:
+        type: string
+      description:
+        type: string
+      hour:
+        type: string
+    type: object
+  appointments.DentistInfo:
+    properties:
+      id:
+        type: integer
+      lastname:
+        type: string
+      license:
+        type: string
+      name:
+        type: string
+    type: object
+  appointments.PatientInfo:
+    properties:
+      address:
+        type: string
+      discharge_date:
+        type: string
+      dni:
+        type: string
+      id:
+        type: integer
+      lastname:
+        type: string
+      name:
+        type: string
+    type: object
+  dentists.Dentist:
+    properties:
+      id:
+        type: integer
+      lastname:
+        type: string
+      license:
+        type: string
+      name:
+        type: string
+    required:
+    - lastname
+    - license
+    - name
+    type: object
+  dentists.DentistPatch:
+    properties:
+      lastname:
+        type: string
+      license:
+        type: string
+      name:
+        type: string
+    type: object
+  patients.Patient:
+    properties:
+      address:
+        type: string
+      discharge_date:
+        type: string
+      dni:
+        type: string
+      id:
+        type: integer
+      lastname:
+        type: string
+      name:
+        type: string
+    required:
+    - address
+    - discharge_date
+    - dni
+    - lastname
+    - name
+    type: object
+  patients.PatientPatch:
+    properties:
+      address:
+        type: string
+      discharge_date:
+        type: string
+      dni:
+        type: string
+      lastname:
+        type: string
+      name:
+        type: string
+    type: object
+info:
+  contact:
+    name: API Support
+    url: https://developers.ctd.com.ar/support
+  description: Solución al final de backend de Digital House - Grupo 8 por Felipe
+    Monterrosa, Javier Triana, Fabricio Montivero, Gaston Diaz
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: https://developers.ctd.com.ar/es_ar/terminos-y-condiciones
+  title: Grupo 8 Final Backend
+  version: "1.0"
+paths:
+  /appointments/:
+    post:
+      description: Crea un nuevo turno en el sistema
+      parameters:
+      - description: Appointment object
+        in: body
+        name: requestBody
+        required: true
+        schema:
+          $ref: '#/definitions/appointments.Appointment'
+      - description: PRIVATE-KEY
+        in: header
+        name: PRIVATE-KEY
+        required: true
+        type: string
+      - description: PUBLIC-KEY
+        in: header
+        name: PUBLIC-KEY
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/appointments.Appointment'
+      summary: 'POST: agregar turno.'
+      tags:
+      - turnos
+  /appointments/{id}:
+    delete:
+      description: Elimina un turno por ID desde el repositorio
+      parameters:
+      - description: Appointment ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: PRIVATE-KEY
+        in: header
+        name: PRIVATE-KEY
+        required: true
+        type: string
+      - description: PUBLIC-KEY
+        in: header
+        name: PUBLIC-KEY
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Appointment deleted successfully
+          schema:
+            type: string
+      summary: 'DELETE: eliminar turno.'
+      tags:
+      - turnos
+    get:
+      description: Obtiene un turno por ID desde el repositorio
+      parameters:
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/appointments.Appointment'
+      summary: 'GET: traer turno por ID.'
+      tags:
+      - turnos
+    patch:
+      description: Actualiza un turno parcialmente por ID desde el repositorio
+      parameters:
+      - description: Appointment ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Appointment patch object
+        in: body
+        name: requestBody
+        required: true
+        schema:
+          $ref: '#/definitions/appointments.AppointmentPatch'
+      - description: PRIVATE-KEY
+        in: header
+        name: PRIVATE-KEY
+        required: true
+        type: string
+      - description: PUBLIC-KEY
+        in: header
+        name: PUBLIC-KEY
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/appointments.Appointment'
+      summary: 'PATCH: actualizar un turno por alguno de sus campos.'
+      tags:
+      - turnos
+    put:
+      description: Actualiza un turno por ID desde el repositorio
+      parameters:
+      - description: Appointment ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Appointment object
+        in: body
+        name: requestBody
+        required: true
+        schema:
+          $ref: '#/definitions/appointments.Appointment'
+      - description: PRIVATE-KEY
+        in: header
+        name: PRIVATE-KEY
+        required: true
+        type: string
+      - description: PUBLIC-KEY
+        in: header
+        name: PUBLIC-KEY
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/appointments.Appointment'
+      summary: 'PUT: actualizar turno.'
+      tags:
+      - turnos
+  /appointments/{id}/details:
+    get:
+      description: Obtiene un turno por ID con el detalle de las entidades de paciente
+        y dentista desde el repositorio
+      parameters:
+      - description: Appointment ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/appointments.AppointmentGetWithAllEntities'
+      summary: 'GET: traer turno por ID pero con el detalle de las entidades'
+      tags:
+      - turnos
+  /appointments/create-by-dni-and-license:
+    post:
+      description: Crea un nuevo turno asociado a un paciente identificado por su
+        DNI y a un dentista identificado por su matrícula
+      parameters:
+      - description: Appointment data
+        in: body
+        name: requestBody
+        required: true
+        schema:
+          $ref: '#/definitions/appointments.AppointmentCreateWithDNIAndLicense'
+      - description: PRIVATE-KEY
+        in: header
+        name: PRIVATE-KEY
+        required: true
+        type: string
+      - description: PUBLIC-KEY
+        in: header
+        name: PUBLIC-KEY
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/appointments.Appointment'
+      summary: 'POST: agregar turno por DNI del paciente y matrícula del dentista.'
+      tags:
+      - turnos
+  /appointments/patient:
+    get:
+      description: Obtiene los turnos de un paciente por su DNI con el detalle de
+        las entidades de paciente y dentista desde el repositorio
+      parameters:
+      - description: Patient's DNI
+        in: query
+        name: dni
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/appointments.AppointmentGetWithAllEntities'
+            type: array
+      summary: 'GET: traer turno por DNI del paciente. Debe traer el detalle del turno
+        (Fecha-Hora, descripción, Paciente y Dentista) y el dni deberá ser recibido
+        por QueryParams.'
+      tags:
+      - turnos
+  /dentists/:
+    post:
+      description: Crear dentista en el repositorio
+      parameters:
+      - description: Dentist object
+        in: body
+        name: requestBody
+        required: true
+        schema:
+          $ref: '#/definitions/dentists.Dentist'
+      - description: PRIVATE-KEY
+        in: header
+        name: PRIVATE-KEY
+        required: true
+        type: string
+      - description: PUBLIC-KEY
+        in: header
+        name: PUBLIC-KEY
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/dentists.Dentist'
+      summary: 'POST: agregar dentista.'
+      tags:
+      - odontologos
+  /dentists/{id}:
+    delete:
+      description: Eliminar dentista por ID desde el repositorio
+      parameters:
+      - description: Dentist ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: PRIVATE-KEY
+        in: header
+        name: PRIVATE-KEY
+        required: true
+        type: string
+      - description: PUBLIC-KEY
+        in: header
+        name: PUBLIC-KEY
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Dentist deleted successfully
+          schema:
+            type: string
+      summary: 'DELETE: eliminar el dentista.'
+      tags:
+      - odontologos
+    get:
+      description: Obtener dentista por ID desde el repositorio
+      parameters:
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dentists.Dentist'
+      summary: 'GET: traer dentista por ID.'
+      tags:
+      - odontologos
+    patch:
+      description: Actualizar parcialmente un dentista por ID desde el repositorio
+      parameters:
+      - description: Dentist ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Dentist patch object
+        in: body
+        name: requestBody
+        required: true
+        schema:
+          $ref: '#/definitions/dentists.DentistPatch'
+      - description: PRIVATE-KEY
+        in: header
+        name: PRIVATE-KEY
+        required: true
+        type: string
+      - description: PUBLIC-KEY
+        in: header
+        name: PUBLIC-KEY
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dentists.Dentist'
+      summary: 'PATCH: actualizar un dentista por alguno de sus campos.'
+      tags:
+      - odontologos
+    put:
+      description: Actualizar dentista por ID desde el repositorio
+      parameters:
+      - description: Dentist ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Dentist object
+        in: body
+        name: requestBody
+        required: true
+        schema:
+          $ref: '#/definitions/dentists.Dentist'
+      - description: PRIVATE-KEY
+        in: header
+        name: PRIVATE-KEY
+        required: true
+        type: string
+      - description: PUBLIC-KEY
+        in: header
+        name: PUBLIC-KEY
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dentists.Dentist'
+      summary: 'PUT: actualizar dentista.'
+      tags:
+      - odontologos
+  /patients/:
+    post:
+      description: Crea un nuevo paciente en el repositorio
+      parameters:
+      - description: Patient object
+        in: body
+        name: requestBody
+        required: true
+        schema:
+          $ref: '#/definitions/patients.Patient'
+      - description: PRIVATE-KEY
+        in: header
+        name: PRIVATE-KEY
+        required: true
+        type: string
+      - description: PUBLIC-KEY
+        in: header
+        name: PUBLIC-KEY
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/patients.Patient'
+      summary: 'POST: agregar paciente.'
+      tags:
+      - pacientes
+  /patients/{id}:
+    delete:
+      description: Elimina un paciente por ID desde el repositorio
+      parameters:
+      - description: Patient ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: PRIVATE-KEY
+        in: header
+        name: PRIVATE-KEY
+        required: true
+        type: string
+      - description: PUBLIC-KEY
+        in: header
+        name: PUBLIC-KEY
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Patient deleted successfully
+          schema:
+            type: string
+      summary: 'DELETE: eliminar al paciente.'
+      tags:
+      - pacientes
+    get:
+      description: Obtener paciente por ID desde el repositorio
+      parameters:
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/patients.Patient'
+      summary: 'GET: traer paciente por ID'
+      tags:
+      - pacientes
+    patch:
+      description: Actualiza parcialmente un paciente por ID desde el repositorio
+      parameters:
+      - description: Patient ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Patient patch object
+        in: body
+        name: requestBody
+        required: true
+        schema:
+          $ref: '#/definitions/patients.PatientPatch'
+      - description: PRIVATE-KEY
+        in: header
+        name: PRIVATE-KEY
+        required: true
+        type: string
+      - description: PUBLIC-KEY
+        in: header
+        name: PUBLIC-KEY
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/patients.Patient'
+      summary: 'PATCH: actualizar un paciente por alguno de sus campos.'
+      tags:
+      - pacientes
+    put:
+      description: Actualizar paciente por ID desde el repositorio
+      parameters:
+      - description: Patient ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Patient object
+        in: body
+        name: requestBody
+        required: true
+        schema:
+          $ref: '#/definitions/patients.Patient'
+      - description: PRIVATE-KEY
+        in: header
+        name: PRIVATE-KEY
+        required: true
+        type: string
+      - description: PUBLIC-KEY
+        in: header
+        name: PUBLIC-KEY
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/patients.Patient'
+      summary: 'PUT: actualizar paciente.'
+      tags:
+      - pacientes
+swagger: "2.0"
