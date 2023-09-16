@@ -12,6 +12,7 @@ func SetupPatientsRouter(router *gin.Engine, patientsHandler *handler.PatientsHa
 
 	patientsGroup.POST("/", authMidd.AuthHeader, patientsHandler.CreatePatient)
 	patientsGroup.GET("/:id", patientsHandler.GetPatientByID)
+	patientsGroup.GET("/list", patientsHandler.GetPatientList)
 	patientsGroup.PUT("/:id", authMidd.AuthHeader, patientsHandler.PutPatient)
 	patientsGroup.PATCH("/:id", authMidd.AuthHeader, patientsHandler.PatchPatient)
 	patientsGroup.DELETE("/:id", authMidd.AuthHeader, patientsHandler.DeletePatient)

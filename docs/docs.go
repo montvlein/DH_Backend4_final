@@ -604,6 +604,27 @@ const docTemplate = `{
                 }
             }
         },
+        "/patients/list": {
+            "get": {
+                "description": "Obtener listado de paciente desde el repositorio",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "pacientes"
+                ],
+                "summary": "GET: lista todos los paciente.",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/[]patients.Patient"
+                        }
+                    }
+                }
+            }
+        },
         "/patients/{id}": {
             "get": {
                 "description": "Obtener paciente por ID desde el repositorio",

@@ -5,6 +5,7 @@ type Repository interface {
 	CreatePatient(patient Patient) (Patient, error)
 	ModifyPatientById(id int, patient Patient) (Patient, error)
 	DeletePatientById(id int) error
+	GetPatientList() ([]Patient, error)
 }
 
 type Service struct {
@@ -17,6 +18,10 @@ func NewService(repository Repository) *Service {
 
 func (s *Service) GetPatientByID(id int) (Patient, error) {
 	return s.repository.GetPatientById(id)
+}
+
+func (s *Service) GetPatientList() ([]Patient, error) {
+	return s.repository.GetPatientList()
 }
 
 func (s *Service) ModifyPatientByID(id int, patient Patient) (Patient, error) {

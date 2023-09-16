@@ -1,16 +1,16 @@
-DROP DATABASE IF EXISTS final_backend;
+-- DROP DATABASE IF EXISTS final_backend;
 
-CREATE DATABASE final_backend;
+-- CREATE DATABASE final_backend;
 
-\c final_backend;
+-- \c final_backend;
 
-CREATE USER grupo8 WITH PASSWORD 'grupo8';
-ALTER USER grupo8 WITH SUPERUSER;
+-- CREATE USER grupo8 WITH PASSWORD 'grupo8';
+-- ALTER USER grupo8 WITH SUPERUSER;
 
-GRANT ALL PRIVILEGES ON DATABASE final_backend TO grupo8;
-GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO grupo8;
+-- GRANT ALL PRIVILEGES ON DATABASE final_backend TO grupo8;
+-- GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO grupo8;
 
-COMMIT;
+-- COMMIT;
 
 DROP TABLE IF EXISTS dentists;
 
@@ -52,3 +52,6 @@ ALTER TABLE appointments
 ADD CONSTRAINT fk_dentist
 FOREIGN KEY (dentist_id)
 REFERENCES dentists (id);
+
+INSERT INTO patients (name, lastname, address, dni, discharge_date)
+VALUES ('Fabricio', 'Montivero', 'direccion', '12345', '15/09/2023');

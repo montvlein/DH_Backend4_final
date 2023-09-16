@@ -13,6 +13,7 @@ import (
 
 type PatientsGetter interface {
 	GetPatientByID(id int) (patients.Patient, error)
+	GetPatientList() ([]patients.Patient, error)
 }
 type PatientCreator interface {
 	CreatePatient(patient patients.Patient) (patients.Patient, error)
@@ -53,6 +54,15 @@ func (ph *PatientsHandler) GetPatientByID(ctx *gin.Context) {
 		return
 	}
 	ctx.JSON(http.StatusOK, patient)
+}
+
+func (ph *PatientsHandler) GetPatientList(ctx *gin.Context) {
+	patientList, err := ph.patientsGetter.GetPatientList()
+	if err != nil {
+		ctx.JSON(http.StatusNotFound, gin.H{"error": "patient not found"})
+		return
+	}
+	ctx.JSON(http.StatusOK, patientList)
 }
 
 // PUT: actualizar paciente.
